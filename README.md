@@ -1,2 +1,2 @@
 # calculadora-marmita
-calculador teste para calculo de marmita
+O Calculadora de Marmitas é uma ferramenta inovadora e prática desenvolvida para empreendedores e pessoas que produzem marmitas lucrativas. O aplicativo facilita o gerenciamento de custos, ingredientes e lucros, ajudando você a calcular a quantidade de marmitas que podem ser produzidas com os itens disponíveis e a estimar o custo e o preço de venda ideal para maximizar seus ganhos.
