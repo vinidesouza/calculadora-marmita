@@ -1,0 +1,254 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2820
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="pt">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>Calculadora de Marmitas</title>\
+    <link rel="stylesheet" href="style.css">\
+    <style>\
+        body \{\
+            font-family: Arial, sans-serif;\
+            text-align: center;\
+            background-color: #f8f8f8;\
+            padding: 20px;\
+        \}\
+\
+        h1 \{\
+            font-size: 2.5rem;\
+            margin-bottom: 10px;\
+        \}\
+\
+        h2 \{\
+            font-size: 1.5rem;\
+            margin-top: 20px;\
+        \}\
+\
+        form, .result-section \{\
+            max-width: 600px;\
+            margin: 0 auto 20px;\
+            padding: 20px;\
+            background-color: #ffffff;\
+            border-radius: 12px;\
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\
+        \}\
+\
+        label \{\
+            display: block;\
+            font-weight: bold;\
+            margin-bottom: 5px;\
+        \}\
+\
+        input, select, button \{\
+            width: 100%;\
+            padding: 10px;\
+            margin-bottom: 15px;\
+            border: 1px solid #ccc;\
+            border-radius: 8px;\
+            font-size: 1rem;\
+        \}\
+\
+        button \{\
+            background-color: #ff7b54;\
+            color: white;\
+            cursor: pointer;\
+            transition: background-color 0.3s;\
+        \}\
+\
+        button:hover \{\
+            background-color: #ff5722;\
+        \}\
+\
+        ul \{\
+            list-style: none;\
+            padding: 0;\
+        \}\
+\
+        li \{\
+            margin: 10px 0;\
+            font-size: 1rem;\
+        \}\
+\
+        li button \{\
+            display: inline-block;\
+            width: auto;\
+            padding: 5px 10px;\
+            margin-left: 10px;\
+            background-color: #e74c3c;\
+            border: none;\
+            color: white;\
+            font-size: 0.9rem;\
+            border-radius: 5px;\
+            cursor: pointer;\
+        \}\
+\
+        li button:hover \{\
+            background-color: #c0392b;\
+        \}\
+\
+        #logo \{\
+            margin-bottom: 20px;\
+        \}\
+\
+        #headline \{\
+            font-size: 1.8rem;\
+            margin-bottom: 20px;\
+            color: #333333;\
+        \}\
+    </style>\
+</head>\
+<body>\
+    <img id="logo" src="logo.png" alt="Logo Pratik\'ea" width="150">\
+    <div id="headline">Marmitas Lucrativas</div>\
+    <h1>Calculadora de Marmitas</h1>\
+    <form id="formMarmita">\
+        <div>\
+            <label>Ingrediente:</label>\
+            <input type="text" id="ingrediente" required>\
+        </div>\
+        <div>\
+            <label>Quantidade:</label>\
+            <input type="number" id="quantidade" step="0.01" required>\
+            <select id="unidade">\
+                <option value="kg">Kg</option>\
+                <option value="unid">Unidade</option>\
+            </select>\
+        </div>\
+        <div>\
+            <label>Pre\'e7o pago:</label>\
+            <input type="number" id="preco" step="0.01" required>\
+        </div>\
+        <div>\
+            <label>Categoria:</label>\
+            <select id="categoria">\
+                <option value="proteina">Prote\'edna</option>\
+                <option value="carboidrato">Carboidrato</option>\
+                <option value="vegetal">Vegetal</option>\
+                <option value="extra">Extra</option>\
+            </select>\
+        </div>\
+        <button type="button" onclick="adicionarIngrediente()">Adicionar</button>\
+    </form>\
+\
+    <h2>Ingredientes Adicionados</h2>\
+    <ul id="listaIngredientes"></ul>\
+    \
+    <h2>Custo Total</h2>\
+    <p id="custoTotal">R$ 0.00</p>\
+\
+    <button type="button" onclick="calcularMarmitas()">Calcular Marmitas</button>\
+\
+    <h2>Resultados</h2>\
+    <p id="resultado"></p>\
+\
+    <h2>Definir Pre\'e7o de Venda</h2>\
+    <button type="button" onclick="calcularPrecoVenda(30)">Lucro de 30%</button>\
+    <button type="button" onclick="calcularPrecoVenda(50)">Lucro de 50%</button>\
+    <button type="button" onclick="calcularPrecoVenda(100)">Lucro de 100%</button>\
+    <p id="precoVenda"></p>\
+    <p id="receitaTotal"></p>\
+    <p id="lucroTotal"></p>\
+\
+    <script>\
+        let ingredientes = [];\
+        let custoTotalGeral = 0;\
+\
+        function adicionarIngrediente() \{\
+            const ingrediente = document.getElementById('ingrediente').value;\
+            const quantidade = parseFloat(document.getElementById('quantidade').value);\
+            const unidade = document.getElementById('unidade').value;\
+            const preco = parseFloat(document.getElementById('preco').value);\
+            const categoria = document.getElementById('categoria').value;\
+\
+            if (ingrediente && quantidade > 0 && preco > 0) \{\
+                ingredientes.push(\{ ingrediente, quantidade, unidade, preco, categoria \});\
+                custoTotalGeral += preco;\
+                atualizarLista();\
+\
+                // Resetando os campos para nova entrada\
+                document.getElementById('ingrediente').value = "";\
+                document.getElementById('quantidade').value = "";\
+                document.getElementById('preco').value = "";\
+                document.getElementById('unidade').value = "kg";\
+                document.getElementById('categoria').value = "proteina";\
+            \}\
+        \}\
+\
+        function removerIngrediente(index) \{\
+            custoTotalGeral -= ingredientes[index].preco;\
+            ingredientes.splice(index, 1);\
+            atualizarLista();\
+        \}\
+\
+        function atualizarLista() \{\
+            const lista = document.getElementById('listaIngredientes');\
+            lista.innerHTML = "";\
+            ingredientes.forEach((item, index) => \{\
+                const li = document.createElement('li');\
+                li.innerHTML = `$\{item.ingrediente\} - $\{item.quantidade\}$\{item.unidade\} - R$$\{item.preco\} ($\{item.categoria\}) ` +\
+                               `<button onclick="removerIngrediente($\{index\})">Remover</button>`;\
+                lista.appendChild(li);\
+            \});\
+            document.getElementById('custoTotal').innerText = `R$ $\{custoTotalGeral.toFixed(2)\}`;\
+        \}\
+\
+        let custoPorMarmita = 0;\
+        let marmitasPossiveis = 0;\
+\
+        function calcularMarmitas() \{\
+            let totalProteina = 0, totalCarbo = 0, totalVegetal = 0, totalExtra = 0;\
+\
+            ingredientes.forEach(item => \{\
+                let quantidadeConvertida = item.quantidade;\
+                if (item.unidade === "unid") \{\
+                    quantidadeConvertida *= 0.2; // Supondo que cada unidade seja 200g\
+                \}\
+\
+                switch (item.categoria) \{\
+                    case "proteina": totalProteina += quantidadeConvertida; break;\
+                    case "carboidrato": totalCarbo += quantidadeConvertida; break;\
+                    case "vegetal": totalVegetal += quantidadeConvertida; break;\
+                    case "extra": totalExtra += quantidadeConvertida; break;\
+                \}\
+            \});\
+\
+            const proteinaPorMarmita = 150 / 1000;\
+            const carboPorMarmita = 200 / 1000;\
+            const vegetalPorMarmita = 100 / 1000;\
+            const extraPorMarmita = 50 / 1000;\
+\
+            const qtdMarmitasProteina = totalProteina > 0 ? Math.floor(totalProteina / proteinaPorMarmita) : Infinity;\
+            const qtdMarmitasCarbo = totalCarbo > 0 ? Math.floor(totalCarbo / carboPorMarmita) : Infinity;\
+            const qtdMarmitasVegetal = totalVegetal > 0 ? Math.floor(totalVegetal / vegetalPorMarmita) : Infinity;\
+            const qtdMarmitasExtra = totalExtra > 0 ? Math.floor(totalExtra / extraPorMarmita) : Infinity;\
+\
+            marmitasPossiveis = Math.min(qtdMarmitasProteina, qtdMarmitasCarbo, qtdMarmitasVegetal, qtdMarmitasExtra);\
+            custoPorMarmita = (custoTotalGeral / marmitasPossiveis).toFixed(2);\
+\
+            document.getElementById('resultado').innerHTML = `\
+                <strong>Marmitas poss\'edveis:</strong> $\{marmitasPossiveis\} <br>\
+                <strong>Custo por marmita:</strong> R$ $\{custoPorMarmita\}\
+            `;\
+        \}\
+\
+        function calcularPrecoVenda(lucroPercentual) \{\
+            if (custoPorMarmita > 0) \{\
+                const precoVenda = (custoPorMarmita * (1 + lucroPercentual / 100)).toFixed(2);\
+                const receitaTotal = (precoVenda * marmitasPossiveis).toFixed(2);\
+                const lucroTotal = (receitaTotal - (custoPorMarmita * marmitasPossiveis)).toFixed(2);\
+                \
+                document.getElementById('precoVenda').innerHTML = `Pre\'e7o sugerido para $\{lucroPercentual\}% de lucro: R$ $\{precoVenda\}`;\
+                document.getElementById('receitaTotal').innerHTML = `Receita total: R$ $\{receitaTotal\}`;\
+                document.getElementById('lucroTotal').innerHTML = `Lucro total: R$ $\{lucroTotal\}`;\
+            \}\
+        \}\
+    </script>\
+</body>\
+</html>\
+}
