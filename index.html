@@ -1,141 +1,43 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Marmitas</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            background-color: #f8f9fa;
-        }
-        .container {
-            max-width: 500px;
-            margin: 20px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            margin: 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-        .ingrediente-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px;
-            border-bottom: 1px solid #ddd;
-        }
-        .remove-btn {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 5px;
-            cursor: pointer;
-            border-radius: 3px;
-        }
-    </style>
+    <title>Meal Prep Cost Calculator</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <img id="logo" src="Pratike_Logo_Marrom.png" alt="Logo Pratikê" style="width: 100px;">
-        <h1>Calculadora de Marmitas</h1>
-        
-        <form id="formMarmita">
-            <label>Ingrediente:</label>
-            <input type="text" id="ingrediente" required>
-            
-            <label>Quantidade:</label>
-            <input type="number" id="quantidade" step="0.01" required>
-            <select id="unidade">
-                <option value="kg">Kg</option>
-                <option value="unid">Unidade</option>
-            </select>
-            
-            <label>Preço pago:</label>
-            <input type="number" id="preco" step="0.01" required>
-            
-            <label>Categoria:</label>
-            <select id="categoria">
-                <option value="proteina">Proteína</option>
-                <option value="carboidrato">Carboidrato</option>
-                <option value="vegetal">Vegetal</option>
-                <option value="extra">Extra</option>
-            </select>
-            
-            <button type="button" class="btn" onclick="adicionarIngrediente()">Adicionar</button>
-        </form>
-        
-        <h2>Ingredientes Adicionados</h2>
-        <ul id="listaIngredientes"></ul>
-        
-        <h2>Custo Total</h2>
-        <p id="custoTotal">R$ 0.00</p>
-        <button type="button" class="btn" onclick="calcularMarmitas()">Calcular Marmitas</button>
-        
-        <h2>Resultados</h2>
-        <p id="resultado"></p>
-        
-        <h2>Definir Preço de Venda</h2>
-        <button type="button" class="btn" onclick="calcularPrecoVenda(30)">Lucro de 30%</button>
-        <button type="button" class="btn" onclick="calcularPrecoVenda(50)">Lucro de 50%</button>
-        <button type="button" class="btn" onclick="calcularPrecoVenda(100)">Lucro de 100%</button>
-        
-        <p id="precoVenda"></p>
-        <p id="receitaTotal"></p>
-        <p id="lucroTotal"></p>
-    </div>
-    
-    <script>
-        let custoTotal = 0;
-        const precoMarmita = 10; // Definir um valor padrão para cada marmita
-        
-        function adicionarIngrediente() {
-            const ingrediente = document.getElementById("ingrediente").value;
-            const preco = parseFloat(document.getElementById("preco").value);
-            if (!isNaN(preco) && ingrediente.trim() !== "") {
-                custoTotal += preco;
-                document.getElementById("custoTotal").innerText = `R$ ${custoTotal.toFixed(2)}`;
-                
-                const lista = document.getElementById("listaIngredientes");
-                const item = document.createElement("li");
-                item.classList.add("ingrediente-item");
-                item.innerHTML = `${ingrediente} - R$ ${preco.toFixed(2)} <button class="remove-btn" onclick="removerIngrediente(this, ${preco})">Remover</button>`;
-                lista.appendChild(item);
-            }
-        }
-        function removerIngrediente(button, preco) {
-            custoTotal -= preco;
-            document.getElementById("custoTotal").innerText = `R$ ${custoTotal.toFixed(2)}`;
-            button.parentElement.remove();
-        }
-        function calcularMarmitas() {
-            if (custoTotal === 0) {
-                document.getElementById("resultado").innerText = "Adicione ingredientes antes de calcular.";
-                return;
-            }
-            let quantidadeMarmitas = Math.floor(custoTotal / precoMarmita);
-            document.getElementById("resultado").innerText = `Quantidade estimada de marmitas: ${quantidadeMarmitas}`;
-        }
-        function calcularPrecoVenda(lucro) {
-            if (custoTotal === 0) return;
-            let precoVenda = custoTotal * (1 + lucro / 100);
-            document.getElementById("precoVenda").innerText = `Preço de Venda: R$ ${precoVenda.toFixed(2)}`;
-        }
-    </script>
+    <h1>Meal Prep Cost Calculator</h1>
+    <form id="ingredient-form">
+        <h2>Ingredient Input</h2>
+        <label for="ingredient-name">Ingredient Name:</label>
+        <input type="text" id="ingredient-name" name="ingredient-name"><br><br>
+        <label for="purchased-quantity">Purchased Quantity (kg or units):</label>
+        <input type="number" id="purchased-quantity" name="purchased-quantity"><br><br>
+        <label for="price-paid">Price Paid:</label>
+        <input type="number" id="price-paid" name="price-paid"><br><br>
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+            <option value="protein">Protein</option>
+            <option value="carbohydrate">Carbohydrate</option>
+            <option value="vegetables">Vegetables</option>
+            <option value="extras">Extras</option>
+        </select><br><br>
+        <button id="add-ingredient-btn">Add Ingredient</button>
+    </form>
+    <div id="ingredients-list"></div>
+    <form id="additional-expenses-form">
+        <h2>Additional Expenses</h2>
+        <label for="packaging-cost">Packaging Cost (per meal):</label>
+        <input type="number" id="packaging-cost" name="packaging-cost"><br><br>
+        <label for="delivery-cost">Delivery Cost (per meal or per batch):</label>
+        <input type="number" id="delivery-cost" name="delivery-cost"><br><br>
+        <label for="other-costs">Other Costs:</label>
+        <input type="number" id="other-costs" name="other-costs"><br><br>
+        <button id="calculate-btn">Calculate</button>
+    </form>
+    <div id="results"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>
