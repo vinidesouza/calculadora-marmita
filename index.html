@@ -4,194 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cozinha Pratikê - Marmitas Lucrativas</title>
-    <style>
-        body {
-            background-color: #1c1c1c;
-            color: #f5f5f5;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-            height: 100vh;
-        }
-
-        h1 {
-            font-size: 2rem;
-            text-align: center;
-        }
-
-        h2 {
-            font-size: 1rem;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        img {
-            width: 100px;
-            margin-bottom: 1rem;
-        }
-
-        .container {
-            background-color: #292929;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 400px;
-        }
-
-        label {
-            display: block;
-            margin: 0.5rem 0 0.2rem;
-        }
-
-        input, select, button {
-            width: 100%;
-            padding: 0.5rem;
-            margin-bottom: 1rem;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        button {
-            background-color: #ff7c1f;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #ff5500;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        ul li {
-            background: #3a3a3a;
-            margin-bottom: 0.5rem;
-            padding: 0.5rem;
-            border-radius: 5px;
-        }
-
-        .result {
-            margin-top: 1.5rem;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <img src="Pratike_Logo_Marrom.png" alt="Logo Pratikê">
+    <header>
+        <div class="logo-container">
+            <img src="Pratike_Logo_Marrom.png" alt="Logo Pratikê" class="logo">
+        </div>
         <h1>Cozinha Pratikê</h1>
         <h2>Marmitas Lucrativas</h2>
+    </header>
 
-        <form id="formMarmita">
-            <label for="descricao">Descrição</label>
-            <input type="text" id="descricao" placeholder="Ex: Frango, Arroz" required>
+    <main>
+        <section class="form-section">
+            <form id="formMarmita">
+                <label for="descricao">Descrição</label>
+                <input type="text" id="descricao" placeholder="Ex: Frango, Arroz" required>
 
-            <label for="quantidade">Quantidade</label>
-            <input type="number" id="quantidade" step="0.01" required>
+                <label for="quantidade">Quantidade</label>
+                <input type="number" id="quantidade" step="0.01" required>
 
-            <label for="unidade">Unidade de Medida</label>
-            <select id="unidade" required>
-                <option value="kg">Kg</option>
-                <option value="unid">Unidade</option>
-            </select>
+                <label for="unidade">Unidade de Medida</label>
+                <select id="unidade" required>
+                    <option value="kg">Kg</option>
+                    <option value="unid">Unidade</option>
+                </select>
 
-            <label for="preco">Preço Pago (R$)</label>
-            <input type="number" id="preco" step="0.01" required>
+                <label for="preco">Preço Pago (R$)</label>
+                <input type="number" id="preco" step="0.01" required>
 
-            <label for="categoria">Categoria</label>
-            <select id="categoria" required>
-                <option value="proteina">Proteína</option>
-                <option value="carboidrato">Carboidrato</option>
-                <option value="vegetal">Vegetal</option>
-                <option value="extra">Extra</option>
-            </select>
+                <label for="categoria">Categoria</label>
+                <select id="categoria" required>
+                    <option value="proteina">Proteína</option>
+                    <option value="carboidrato">Carboidrato</option>
+                    <option value="vegetal">Vegetal</option>
+                    <option value="extra">Extra</option>
+                </select>
 
-            <button type="button" onclick="adicionarIngrediente()">Adicionar</button>
-        </form>
+                <button type="button" class="btn" onclick="adicionarIngrediente()">Adicionar</button>
+            </form>
+        </section>
 
-        <h3>Ingredientes Adicionados</h3>
-        <ul id="listaIngredientes"></ul>
+        <section class="list-section">
+            <h3>Ingredientes Adicionados</h3>
+            <ul id="listaIngredientes"></ul>
+        </section>
 
-        <button type="button" onclick="calcularMarmitas()">Calcular</button>
-
-        <div class="result" id="resultado"></div>
-    </div>
-
-    <script>
-        let ingredientes = [];
-
-        function adicionarIngrediente() {
-            const descricao = document.getElementById('descricao').value;
-            const quantidade = parseFloat(document.getElementById('quantidade').value);
-            const unidade = document.getElementById('unidade').value;
-            const preco = parseFloat(document.getElementById('preco').value);
-            const categoria = document.getElementById('categoria').value;
-
-            if (descricao && quantidade > 0 && preco > 0) {
-                ingredientes.push({ descricao, quantidade, unidade, preco, categoria });
-                atualizarLista();
-                document.getElementById('formMarmita').reset();
-            }
-        }
-
-        function atualizarLista() {
-            const lista = document.getElementById('listaIngredientes');
-            lista.innerHTML = "";
-            ingredientes.forEach((item, index) => {
-                const li = document.createElement('li');
-                li.textContent = `${item.descricao} - ${item.quantidade}${item.unidade} - R$${item.preco} (${item.categoria})`;
-                lista.appendChild(li);
-            });
-        }
-
-        function calcularMarmitas() {
-            let totalProteina = 0, totalCarbo = 0, totalVegetal = 0, totalExtra = 0;
-            let custoTotal = 0;
-
-            ingredientes.forEach(item => {
-                let quantidadeConvertida = item.quantidade;
-                if (item.unidade === "unid") {
-                    quantidadeConvertida *= 0.2; // Conversão para kg (exemplo: cada unidade = 200g)
-                }
-
-                custoTotal += item.preco;
-                switch (item.categoria) {
-                    case "proteina": totalProteina += quantidadeConvertida; break;
-                    case "carboidrato": totalCarbo += quantidadeConvertida; break;
-                    case "vegetal": totalVegetal += quantidadeConvertida; break;
-                    case "extra": totalExtra += quantidadeConvertida; break;
-                }
-            });
-
-            const pesoMarmita = 500; 
-            const proteinaPorMarmita = 150; 
-            const carboPorMarmita = 200; 
-            const vegetalPorMarmita = 100; 
-            const extraPorMarmita = 50; 
-
-            const qtdMarmitasProteina = totalProteina > 0 ? Math.floor(totalProteina / proteinaPorMarmita) : Infinity;
-            const qtdMarmitasCarbo = totalCarbo > 0 ? Math.floor(totalCarbo / carboPorMarmita) : Infinity;
-            const qtdMarmitasVegetal = totalVegetal > 0 ? Math.floor(totalVegetal / vegetalPorMarmita) : Infinity;
-            const qtdMarmitasExtra = totalExtra > 0 ? Math.floor(totalExtra / extraPorMarmita) : Infinity;
-
-            // Condicional ajustado para ignorar extras quando ausentes
-            const marmitasPossiveis = Math.min(qtdMarmitasProteina, qtdMarmitasCarbo, qtdMarmitasVegetal, totalExtra > 0 ? qtdMarmitasExtra : Infinity);
-            const custoPorMarmita = marmitasPossiveis > 0 && marmitasPossiveis !== Infinity ? (custoTotal / marmitasPossiveis).toFixed(2) : 0;
-
-            document.getElementById('resultado').innerHTML = marmitasPossiveis > 0 && marmitasPossiveis !== Infinity ? `
-                <strong>Marmitas possíveis:</strong> ${marmitasPossiveis} <br>
-                <strong>Custo por marmita:</strong> R$ ${custoPorMarmita}
-            ` : `<strong>Erro:</strong> Ingredientes insuficientes para calcular uma marmita. Certifique-se de incluir pelo menos proteína, carboidrato e vegetais.`;
-        }
-    </script>
+        <section class="calculation-section">
+            <button type="button" class="btn" onclick="calcularMarmitas()">Calcular</button>
+            <div id="resultado" class="result"></div>
+        </section>
+    </main>
 </body>
+<script src="script.js"></script>
 </html>
